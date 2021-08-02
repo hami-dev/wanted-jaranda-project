@@ -11,14 +11,14 @@ const ButtonContainer = styled.div`
 `
 
 const ButtonText = styled.div`
-  margin: 6px;
+  margin: 9px;
   font-size: 16px;
   color: ${(props) => props.txtColor};
 `
 
-export default function Button({ text, btnColor, txtColor }) {
+export default function Button({ text, btnColor, txtColor, onClick }) {
   return (
-    <ButtonContainer btnColor={btnColor}>
+    <ButtonContainer btnColor={btnColor} onClick={onClick}>
       <ButtonText txtColor={txtColor}>{text}</ButtonText>
     </ButtonContainer>
   )
