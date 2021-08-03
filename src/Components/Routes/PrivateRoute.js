@@ -7,7 +7,9 @@ const PrivateRoute = ({ component: Component, path, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        GetAccessPathInfo() === path ? (
+        GetAccessPathInfo().find(
+          (accessiblePath) => accessiblePath === path
+        ) ? (
           <Component {...props} />
         ) : (
           <Redirect to="/" />

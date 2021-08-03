@@ -44,6 +44,11 @@ export default function Login() {
 
   const handleTryLogin = (e) => {
     e.preventDefault()
+
+    // 로그인한 시점 저장을 위한 정보
+    const date = new Date()
+    const loginTimeObj = { loginTime: date.getTime() }
+
     // 우선 로그인 시도 계정이 admin 계정인지 판단
     const adminAccount = GetDataFromLocalStorage('admin') || []
     const isAdminAccount =
@@ -53,7 +58,8 @@ export default function Login() {
     // admin 계정이 로그인을 시도한 거라면
     // LocalStorage에 login된 계정 목록에 추가하고 admin page로 이동
     if (isAdminAccount) {
-      SaveDataToLocalStorage('login', adminAccount)
+      const loginAdminAccount = Object.assign(adminAccount, loginTimeObj)
+      SaveDataToLocalStorage('login', loginAdminAccount)
       history.push('/admin')
       return
     }
@@ -67,7 +73,8 @@ export default function Login() {
     // 현재 로그인 시도하는 계정이 회원가입된 정보라면
     // LocalStorage에 login된 계정 목록에 추가하고 main page로 이동
     if (loginAccount) {
-      SaveDataToLocalStorage('login', loginAccount)
+      const loginCommonAccount = Object.assign(loginAccount, loginTimeObj)
+      SaveDataToLocalStorage('login', loginCommonAccount)
       history.push('/')
     } else {
       alert('이메일 또는 비밀번호를 다시 확인해주세요.')

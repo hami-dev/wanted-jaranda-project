@@ -44,6 +44,11 @@ export default function AdminLogin() {
 
   const handleTryLogin = (e) => {
     e.preventDefault()
+
+    // 로그인한 시점 저장을 위한 정보
+    const date = new Date()
+    const loginTimeObj = { loginTime: date.getTime() }
+
     // LocalStorage에 저장되어 있는 admin 계정 정보들 가져와서
     // 현재 로그인 시도하는 계정과 일치하는지 대조
     const adminAccount = GetDataFromLocalStorage('admin') || []
@@ -54,7 +59,8 @@ export default function AdminLogin() {
     // 현재 로그인 시도하는 계정이 admin 정보라면
     // LocalStorage에 login된 계정 목록에 admin 계정을 추가하고 main page로 이동
     if (loginAccount) {
-      SaveDataToLocalStorage('login', adminAccount)
+      const loginAdminAccount = Object.assign(adminAccount, loginTimeObj)
+      SaveDataToLocalStorage('login', loginAdminAccount)
       history.push('/admin')
     } else {
       alert('이메일 또는 비밀번호를 다시 확인해주세요.')

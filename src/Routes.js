@@ -8,6 +8,7 @@ import AdminLogin from 'Pages/Login/AdminLogin'
 import Signup from 'Pages/Signup/Signup'
 import Teacher from 'Pages/Teacher/Teacher'
 import Parent from 'Pages/Parent/Parent'
+import Student from 'Pages/Student/Student'
 import NotFound from 'Pages/NotFound/NotFound'
 import PrivateRoute from 'Components/Routes/PrivateRoute'
 import PublicRoute from 'Components/Routes/PublicRoute'
@@ -28,6 +29,7 @@ export default function Routes() {
         <PublicRoute restricted exact path="/signup" component={Signup} />
         <PrivateRoute exact path="/parent" component={Parent} />
         <PrivateRoute exact path="/teacher" component={Teacher} />
+        <PrivateRoute exact path="/student" component={Student} />
         <PublicRoute component={NotFound} />
       </Switch>
     </Router>
