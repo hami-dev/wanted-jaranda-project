@@ -18,11 +18,11 @@ export default function AdminLogin() {
   const [input, setInput] = useState({})
   useEffect(() => {
     // 로그인 된 상태에서 로그인 페이지 접근할 시 main page로 redirect
-    const loginedAccount = GetDataFromLocalStorage('login')
-    if (loginedAccount) {
-      alert('이미 로그인 되셨습니다.')
-      history.push('/')
-    }
+    // const loginedAccount = GetDataFromLocalStorage('login')
+    // if (loginedAccount) {
+    //   alert('이미 로그인 되셨습니다.')
+    //   history.push('/')
+    // }
     const storedAccounts = GetDataFromLocalStorage('accounts')
     if (!storedAccounts) {
       try {

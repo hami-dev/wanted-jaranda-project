@@ -21,9 +21,9 @@ export default function Main() {
     }
     // 방문 불가능 시 반려
     if (tabRoute === '/teacher') {
-      alert('선생님만 이용할 수 있습니다.')
+      // alert('선생님만 이용할 수 있습니다.')
     } else {
-      alert('부모님만 이용할 수 있습니다.')
+      // alert('부모님만 이용할 수 있습니다.')
     }
   }
 
@@ -61,14 +61,17 @@ export default function Main() {
       </div>
       <div
         onClick={() => {
-          handleTabClick('/teacher')
+          // handleTabClick('/teacher')
+          history.push('/teacher')
         }}
       >
         선생님 전용 메뉴
       </div>
       <div
         onClick={() => {
-          handleTabClick('/parent')
+          history.push('/parent')
+
+          // handleTabClick('/parent')
         }}
       >
         부모님 전용 메뉴

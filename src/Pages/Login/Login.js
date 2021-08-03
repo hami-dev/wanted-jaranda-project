@@ -17,11 +17,11 @@ export default function Login() {
   const [input, setInput] = useState({})
   useEffect(() => {
     // 로그인 된 상태에서 로그인 페이지 접근할 시 main page로 redirect
-    const loginedAccount = GetDataFromLocalStorage('login')
-    if (loginedAccount) {
-      alert('이미 로그인 되셨습니다.')
-      history.push('/')
-    }
+    // const loginedAccount = GetDataFromLocalStorage('login')
+    // if (loginedAccount) {
+    //   alert('이미 로그인 되셨습니다.')
+    //   history.push('/')
+    // }
     // LocalStorage에 계정 정보 저장되어 있지 않으면 JSON fetch 후 저장
     const storedAccounts = GetDataFromLocalStorage('accounts')
     if (!storedAccounts) {

@@ -8,18 +8,27 @@ import AdminLogin from 'Pages/Login/AdminLogin'
 import Signup from 'Pages/Signup/Signup'
 import Teacher from 'Pages/Teacher/Teacher'
 import Parent from 'Pages/Parent/Parent'
+import NotFound from 'Pages/NotFound/NotFound'
+import PrivateRoute from 'Components/Routes/PrivateRoute'
+import PublicRoute from 'Components/Routes/PublicRoute'
 
 export default function Routes() {
   return (
     <Router>
       <Switch>
-        <Route exact path={['/', '/main']} component={Main} />
-        <Route exact path="/admin" component={Admin} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/admin-login" component={AdminLogin} />
-        <Route exact path="/signup" component={Signup} />
-        <Route exact path="/teacher" component={Teacher} />
-        <Route exact path="/parent" component={Parent} />
+        <PublicRoute exact path={['/', '/main']} component={Main} />
+        <PrivateRoute exact path="/admin" component={Admin} />
+        <PublicRoute exact restricted path="/login" component={Login} />
+        <PublicRoute
+          exact
+          restricted
+          path="/admin-login"
+          component={AdminLogin}
+        />
+        <PublicRoute restricted exact path="/signup" component={Signup} />
+        <PrivateRoute exact path="/parent" component={Parent} />
+        <PrivateRoute exact path="/teacher" component={Teacher} />
+        <PublicRoute component={NotFound} />
       </Switch>
     </Router>
   )
