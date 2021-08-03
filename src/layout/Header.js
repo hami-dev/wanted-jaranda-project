@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useHistory, Link } from 'react-router-dom'
-import styled from 'styled-components/macro'
+import styled, { css } from 'styled-components/macro'
 
+import auth from 'Utils/Auth/Auth'
 import { ReactComponent as Hamburger } from 'Assets/Icon/ic_hamburger.svg'
 import logoImgUrl from 'Assets/Images/logo.png'
 
@@ -28,6 +29,10 @@ export default function Header() {
     }
   }
 
+  const handleLogout = () => {
+    auth.logout(() => history.push('/'))
+  }
+
   return (
     <Wrapper>
       <Container>
@@ -44,9 +49,13 @@ export default function Header() {
               <StyledLink to="/">선생님 지원하기</StyledLink>
             </NavItem>
             <NavItem>
-              <StyledLink to="/login" active={isActiveLink('/login')}>
-                로그인/회원가입
-              </StyledLink>
+              {auth.getAuth() ? (
+                <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
+              ) : (
+                <StyledLink to="/login" active={isActiveLink('/login')}>
+                  로그인/회원가입
+                </StyledLink>
+              )}
             </NavItem>
           </NavList>
         </StyledNav>
@@ -144,19 +153,29 @@ const NavItem = styled.li`
     padding: 1.5rem;
   }
 `
-const StyledLink = styled(Link).attrs(({ active }) => ({
-  color: active ? '#87bf44' : '#4a4a4a',
-  weight: active ? '600' : '400',
-}))`
+const navButtonMixin = css`
   display: flex;
   align-items: center;
   height: 100%;
-  font-weight: ${({ weight }) => weight};
-  color: ${({ color }) => color};
+  font-weight: 400;
+  color: #4a4a4a;
+
   &:hover {
     font-weight: 600;
     color: #87bf44;
   }
+`
+
+const StyledLink = styled(Link).attrs(({ active }) => ({
+  color: active ? '#87bf44' : '#4a4a4a',
+  weight: active ? '600' : '400',
+}))`
+  ${navButtonMixin};
+  font-weight: ${({ weight }) => weight};
+  color: ${({ color }) => color};
+`
+const LogoutBtn = styled.button`
+  ${navButtonMixin};
 `
 
 const HamburgerBtn = styled.button`
