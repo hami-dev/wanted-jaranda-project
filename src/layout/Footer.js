@@ -44,6 +44,9 @@ const Wrapper = styled.footer`
   width: 100%;
   height: 49.3rem;
   padding-top: 24.1rem;
+  @media screen and ${({ theme }) => theme.device.mobile} {
+    height: 69rem;
+  }
 `
 const Container = styled.div`
   position: relative;
@@ -59,7 +62,7 @@ const Container = styled.div`
     background: center top / 1440px 100% no-repeat url(${footerBgUrl});
     transform: translateY(-14.9rem);
   }
-  @media screen and (min-width: 1440px) {
+  @media screen and ${({ theme }) => theme.device.desktop} {
     &::before {
       background-size: 100% 100%;
     }
@@ -73,9 +76,18 @@ const Content = styled.div`
   margin: 0 auto;
   color: #fff;
   font-size: 1.4rem;
+  @media screen and ${({ theme }) => theme.device.mobile} {
+    flex-direction: column;
+    justify-content: flex-start;
+    max-width: 47.6rem;
+  }
 `
 const TeamInfoWrap = styled.div`
   width: 50%;
+  padding: 0 1.5rem;
+  @media screen and ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+  }
 `
 const Title = styled.span`
   display: block;
@@ -86,6 +98,10 @@ const Title = styled.span`
 
 const CustomerServiceWrap = styled.div`
   width: 33%;
+  padding: 0 1.5rem;
+  @media screen and ${({ theme }) => theme.device.mobile} {
+    width: 100%;
+  }
 `
 const DefinitionList = styled.dl`
   display: flex;

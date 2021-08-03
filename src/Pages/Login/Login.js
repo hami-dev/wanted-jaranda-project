@@ -6,7 +6,8 @@ import Layout from 'Layout/Layout'
 import CustomInput from 'Components/Form/CustomInput'
 import CustomCheckBox from 'Components/Form/CustomCheckBox'
 import Button from 'Components/Form/Button'
-import backgroundImgUrl from 'Assets/Images/background.sign_in.png'
+import bgImgUrl from 'Assets/Images/bg-sign_in.png'
+import mBgImgUrl from 'Assets/Images/bg-sign_in-m.png'
 
 export default function Login(props) {
   const [isRememberId, setIsRememberId] = useState(false)
@@ -73,9 +74,17 @@ const StyledSection = styled.section`
     display: block;
     width: 100%;
     height: 37.7rem;
-    background: url(${backgroundImgUrl}) no-repeat top right;
+    background: url(${bgImgUrl}) no-repeat top right;
     transform: translateY(-7rem);
     z-index: -1;
+  }
+  @media screen and ${({ theme }) => theme.device.tablet} {
+    padding: 3.7rem 0 0;
+    &::before {
+      height: 13.7rem;
+      background: url(${mBgImgUrl}) no-repeat top right;
+      transform: translateY(-4rem);
+    }
   }
 `
 
@@ -85,6 +94,9 @@ const Container = styled.div`
   border-top-right-radius: 6rem;
   padding: 4.8rem 0;
   background-color: #fff;
+  @media screen and ${({ theme }) => theme.device.tablet} {
+    background-color: transparent;
+  }
 `
 
 const LoginContent = styled.div`
@@ -103,6 +115,10 @@ const StyledTitle = styled.h2`
 
 const StyledInput = styled(CustomInput)`
   margin-bottom: 1.6rem;
+  @media screen and ${({ theme }) => theme.device.tablet} {
+    height: 4.4rem;
+    margin-bottom: 0.8rem;
+  }
 `
 
 const StyledCustomCheckBox = styled(CustomCheckBox)`
@@ -121,6 +137,12 @@ const LoginButton = styled(Button)`
     width: 100%;
     height: 0.1rem;
     background-color: #e5e5e5;
+  }
+  @media screen and ${({ theme }) => theme.device.tablet} {
+    margin-bottom: 2.4rem;
+    &::before {
+      bottom: -1.2rem;
+    }
   }
 `
 const SingupButton = styled(Button)`
