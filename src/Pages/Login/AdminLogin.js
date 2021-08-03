@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
+import LoginForm from 'Components/Form/LoginForm'
 import GetDataFromLocalStorage from 'Utils/GetDataFromLocalStorage'
 import SaveDataToLocalStorage from 'Utils/SaveDataToLocalStorage'
-import LoginForm from 'Components/Form/LoginForm'
 
 const Root = styled.div`
   display: flex;
@@ -12,8 +12,9 @@ const Root = styled.div`
   height: 100vh;
 `
 
-export default function Login() {
+export default function AdminLogin() {
   const history = useHistory()
+
   const [input, setInput] = useState({})
   useEffect(() => {
     // 로그인 된 상태에서 로그인 페이지 접근할 시 main page로 redirect
@@ -22,14 +23,13 @@ export default function Login() {
       alert('이미 로그인 되셨습니다.')
       history.push('/')
     }
-    // LocalStorage에 계정 정보 저장되어 있지 않으면 JSON fetch 후 저장
     const storedAccounts = GetDataFromLocalStorage('accounts')
     if (!storedAccounts) {
       try {
         fetch('http://localhost:3000/data/users.json')
           .then((response) => response.json())
           .then((response) => {
-            SaveDataToLocalStorage('accounts', response)
+            // admin 계정 정보 따로 'admin' key로 저장
             SaveDataToLocalStorage('admin', response[0])
           })
       } catch (error) {
@@ -44,47 +44,28 @@ export default function Login() {
 
   const handleTryLogin = (e) => {
     e.preventDefault()
-    // 우선 로그인 시도 계정이 admin 계정인지 판단
+    // LocalStorage에 저장되어 있는 admin 계정 정보들 가져와서
+    // 현재 로그인 시도하는 계정과 일치하는지 대조
     const adminAccount = GetDataFromLocalStorage('admin') || []
-    const isAdminAccount =
+    const loginAccount =
       adminAccount.email === input.email &&
       adminAccount.password === input.password
 
-    // admin 계정이 로그인을 시도한 거라면
-    // LocalStorage에 login된 계정 목록에 추가하고 admin page로 이동
-    if (isAdminAccount) {
+    // 현재 로그인 시도하는 계정이 admin 정보라면
+    // LocalStorage에 login된 계정 목록에 admin 계정을 추가하고 main page로 이동
+    if (loginAccount) {
       SaveDataToLocalStorage('login', adminAccount)
       history.push('/admin')
-      return
-    }
-
-    // 로그인 시도 계정이 회원가입된 계정인지 판단
-    const accounts = GetDataFromLocalStorage('accounts') || []
-    const loginAccount = accounts.find(
-      (account) =>
-        account.email === input.email && account.password === input.password
-    )
-    // 현재 로그인 시도하는 계정이 회원가입된 정보라면
-    // LocalStorage에 login된 계정 목록에 추가하고 main page로 이동
-    if (loginAccount) {
-      SaveDataToLocalStorage('login', loginAccount)
-      history.push('/')
     } else {
       alert('이메일 또는 비밀번호를 다시 확인해주세요.')
     }
   }
 
-  const handleAdminLogin = () => {
-    history.push('/admin-login')
-  }
-
   return (
     <Root>
       <LoginForm
-        type="login"
         handleInputChange={handleInputChange}
         handleTryLogin={handleTryLogin}
-        handleAdminLogin={handleAdminLogin}
       />
     </Root>
   )
