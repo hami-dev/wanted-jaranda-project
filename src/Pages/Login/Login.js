@@ -1,20 +1,25 @@
 import React, { useState, useRef, useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
 
 import Layout from 'Layout/Layout'
 import CustomInput from 'Components/Form/CustomInput'
 import CustomCheckBox from 'Components/Form/CustomCheckBox'
 import Button from 'Components/Form/Button'
+import Toast from 'Components/Toast/Toast'
+import validation from 'Utils/Validation/Validation'
+import useToast from 'Utils/Hooks/useToast'
+import auth from 'Utils/Auth/Auth'
 import bgImgUrl from 'Assets/Images/bg-sign_in.png'
 import mBgImgUrl from 'Assets/Images/bg-sign_in-m.png'
 
 export default function Login(props) {
+  const history = useHistory()
   const [isRememberId, setIsRememberId] = useState(false)
-
   const idInputRef = useRef(null)
   const pwInputRef = useRef(null)
   const rememberRef = useRef(null)
+  const { isShow, message, toast } = useToast()
 
   const handleRememberMe = useCallback(
     ({ target: { checked } }) => {
@@ -24,11 +29,47 @@ export default function Login(props) {
   )
 
   const handleLogin = useCallback(() => {
-    console.log('로그인')
+    const id = idInputRef.current
+    const pw = pwInputRef.current
+    if (!id.value) {
+      toast('이메일을 입력해주세요.')
+      id.focus()
+      return
+    } else if (!pw.value) {
+      toast('비밀번호를 입력해주세요.')
+      pw.focus()
+      return
+    } else if (!validation.isEmail(id.value)) {
+      toast('유효하지 않은 이메일입니다.')
+      id.value = ''
+      id.focus()
+      return
+    } else {
+      const result = auth.login(id.value, pw.value)
+      switch (result.state) {
+        case 'success':
+          history.push('/')
+          return
+
+        case 'fail':
+          if (result.reason === '등록된 계정이 없습니다.') {
+            toast('등록된 계정이 없습니다.')
+            id.focus()
+          } else {
+            toast('패스워드가 일치하지 않습니다.')
+            pw.focus()
+          }
+          return
+
+        default:
+          throw new Error('is not valid state')
+      }
+    }
   }, [])
 
   const handleSignup = useCallback(() => {
-    console.log('회원가입')
+    toast('Test')
+    test.logout(() => history.push('/'))
   }, [])
 
   return (
@@ -59,6 +100,7 @@ export default function Login(props) {
           </LoginContent>
         </Container>
       </StyledSection>
+      <Toast message={message} isShow={isShow} />
     </Layout>
   )
 }
