@@ -11,8 +11,6 @@ import CardPopup from 'Pages/Signup/CardPopup'
 import validation from 'Utils/Validation/Validation'
 import { useInput } from 'Utils/Hooks/useInput'
 import { usePopup } from 'Pages/Signup/usePopup'
-import bgImgUrl from 'Assets/Images/bg-sign_up.png'
-import mBgImgUrl from 'Assets/Images/bg-sign-m.png'
 
 export default function Signup() {
   const [pass, , onChangePass] = useInput('')
@@ -54,112 +52,84 @@ export default function Signup() {
   }
 
   return (
-    <Layout footerColor="blue">
-      <StyledSection>
-        <h2 className="a11y">회원가입 페이지</h2>
-        <FormSection>
-          <FormTitle>
-            <div>간편하게 회원가입하고</div>
-            <div>선생님 정보를 받아보세요</div>
-          </FormTitle>
-          <form action="">
-            <ul>
-              <li>
-                <Input type="text" placeholder="이메일" />
-              </li>
-              <li>
+    <Layout>
+      <FormSection>
+        <FormTitle>
+          <div>간편하게 회원가입하고</div>
+          <div>선생님 정보를 받아보세요</div>
+        </FormTitle>
+        <form action="">
+          <ul>
+            <li>
+              <Input type="text" placeholder="이메일" />
+            </li>
+            <li>
+              <Input
+                type="password"
+                placeholder="비밀번호"
+                value={pass}
+                onChange={onChangePass}
+                onBlur={(e) => CheckPasswordPolicy(e.target.value)}
+              />
+              <PasswordPolicy passPolicy={passPolicy} />
+              <Input
+                type="password"
+                placeholder="비밀번호 확인"
+                onBlur={CheckPassWord}
+                value={passConfirm}
+                onChange={onChangePassConfirm}
+              />
+            </li>
+            <li>
+              <Input type="text" placeholder="이름" />
+            </li>
+            <li>
+              <Input type="text" placeholder="나이" />
+            </li>
+            <li>
+              <InputTitle>주소</InputTitle>
+              <Address
+                post={post}
+                setPost={setPost}
+                addr={addr}
+                setAddr={setAddr}
+                extraAddr={extraAddr}
+                setExtraAddr={setExtraAddr}
+                onChangeExtraAddr={onChangeExtraAddr}
+              />
+            </li>
+            <li>
+              <InputTitle>결제 정보</InputTitle>
+              <FlexDiv>
                 <Input
-                  type="password"
-                  placeholder="비밀번호"
-                  value={pass}
-                  onChange={onChangePass}
-                  onBlur={(e) => CheckPasswordPolicy(e.target.value)}
+                  type="text"
+                  value={cardNum}
+                  placeholder="{cardNum}"
+                  disabled
                 />
-                <PasswordPolicy passPolicy={passPolicy} />
-                <Input
-                  type="password"
-                  placeholder="비밀번호 확인"
-                  onBlur={CheckPassWord}
-                  value={passConfirm}
-                  onChange={onChangePassConfirm}
-                />
-              </li>
-              <li>
-                <Input type="text" placeholder="이름" />
-              </li>
-              <li>
-                <Input type="text" placeholder="나이" />
-              </li>
-              <li>
-                <InputTitle>주소</InputTitle>
-                <Address
-                  post={post}
-                  setPost={setPost}
-                  addr={addr}
-                  setAddr={setAddr}
-                  extraAddr={extraAddr}
-                  setExtraAddr={setExtraAddr}
-                  onChangeExtraAddr={onChangeExtraAddr}
-                />
-              </li>
-              <li>
-                <InputTitle>결제 정보</InputTitle>
-                <FlexDiv>
-                  <Input
-                    type="text"
-                    value={cardNum}
-                    placeholder="{cardNum}"
-                    disabled
-                  />
-                  <SmallButton onClick={openPopup}>카드 입력하기</SmallButton>
-                </FlexDiv>
-              </li>
-              <li>
-                <InputTitle>학부모님 이신가요?</InputTitle>
-                <Radio type="radio" name="role" id="radio_parent" />
-                <Label htmlFor="radio_parent">학부모님</Label>
-                <Radio type="radio" name="role" id="radio_teacher" />
-                <Label htmlFor="radio_teacher">선생님</Label>
-              </li>
-              <LongButton>가입하기</LongButton>
-            </ul>
-          </form>
-          {showPopup ? (
-            <>
-              <CardPopup onSubmit={onCardSubmit} />
-              <Background onClick={closePopup} />
-            </>
-          ) : null}
-        </FormSection>
-      </StyledSection>
+                <SmallButton onClick={openPopup}>카드 입력하기</SmallButton>
+              </FlexDiv>
+            </li>
+            <li>
+              <InputTitle>학부모님 이신가요?</InputTitle>
+              <Radio type="radio" name="role" id="radio_parent" />
+              <Label htmlFor="radio_parent">학부모님</Label>
+              <Radio type="radio" name="role" id="radio_teacher" />
+              <Label htmlFor="radio_teacher">선생님</Label>
+            </li>
+            <LongButton>가입하기</LongButton>
+          </ul>
+        </form>
+        {showPopup ? (
+          <>
+            <CardPopup onSubmit={onCardSubmit} />
+            <Background onClick={closePopup} />
+          </>
+        ) : null}
+      </FormSection>
     </Layout>
   )
 }
-
-const StyledSection = styled.section`
-  position: relative;
-  padding: 19.2rem 0 12.8rem;
-  z-index: 100;
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    display: block;
-    width: 100%;
-    height: 37.7rem;
-    background: url(${bgImgUrl}) no-repeat top right;
-    transform: translateY(-7rem);
-    z-index: -1;
-  }
-  @media screen and ${({ theme }) => theme.device.tablet} {
-    padding: 3.7rem 0 0;
-    &::before {
-      height: 13.7rem;
-      background: url(${mBgImgUrl}) no-repeat top right;
-      transform: translateY(-4rem);
-    }
-  }
-`
 
 const FormSection = styled.div`
   width: 45rem;
@@ -168,10 +138,7 @@ const FormSection = styled.div`
 
 const FormTitle = styled.div`
   font-size: 2.4rem;
-  margin-bottom: 3rem;
-  @media screen and ${({ theme }) => theme.device.tablet} {
-    margin-top: 4.8rem;
-  }
+  margin: 10rem 0 3rem;
 `
 
 export const InputTitle = styled.div`
