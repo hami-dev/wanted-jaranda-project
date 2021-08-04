@@ -69,7 +69,6 @@ export default function Login(props) {
 
   const handleSignup = useCallback(() => {
     toast('Test')
-    test.logout(() => history.push('/'))
   }, [])
 
   return (
@@ -77,7 +76,9 @@ export default function Login(props) {
       <StyledSection>
         <Container>
           <LoginContent>
-            <StyledTitle>부모님 로그인</StyledTitle>
+            <StyledTitle aria-hidden="true">
+              WELCOME<span className="a11y">welcome</span>
+            </StyledTitle>
             <StyledInput ref={idInputRef} type="text" placeholder="이메일" />
             <StyledInput
               ref={pwInputRef}
@@ -93,10 +94,8 @@ export default function Login(props) {
               아이디 기억하기
             </StyledCustomCheckBox>
             <LoginButton clickHandler={handleLogin}>로그인</LoginButton>
-            <SingupButton clickHandler={handleSignup}>
-              부모님 회원가입
-            </SingupButton>
-            <StyledLink to="/">비밀번호를 잊으셨나요?</StyledLink>
+            <SingupButton clickHandler={handleSignup}>회원가입</SingupButton>
+            <StyledLink to="/">관리자 로그인</StyledLink>
           </LoginContent>
         </Container>
       </StyledSection>
@@ -152,6 +151,7 @@ const LoginContent = styled.div`
 const StyledTitle = styled.h2`
   margin-bottom: 4.8rem;
   font-size: 2.4rem;
+  font-weight: 600;
   text-align: center;
 `
 

@@ -30,7 +30,7 @@ export default function Header() {
   }
 
   const handleLogout = () => {
-    auth.logout(() => history.push('/'))
+    auth.logout(() => history.push('/login'))
   }
 
   return (
