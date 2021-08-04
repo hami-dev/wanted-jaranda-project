@@ -5,11 +5,11 @@ const Timer = () => {
     const loginAccount = GetDataFromLocalStorage('login') || []
     if (loginAccount) {
       const currentTime = new Date().getTime()
-      if (currentTime > loginAccount.loginTime + 10 * 1000) {
+      if (currentTime > loginAccount.loginTime) {
         localStorage.removeItem('login')
       }
     }
-  }, 1000 * 10)
+  }, 1000 * 100)
 }
 
 export default Timer

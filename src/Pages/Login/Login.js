@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import GetDataFromLocalStorage from 'Utils/GetDataFromLocalStorage'
 import SaveDataToLocalStorage from 'Utils/SaveDataToLocalStorage'
 import LoginForm from 'Components/Form/LoginForm'
-import Timer from 'Utils/Timer'
 
 const Root = styled.div`
   display: flex;
@@ -62,7 +61,6 @@ export default function Login() {
       const loginAdminAccount = Object.assign(adminAccount, loginTimeObj)
       SaveDataToLocalStorage('login', loginAdminAccount)
       history.push('/admin')
-      Timer()
       return
     }
 
@@ -78,7 +76,6 @@ export default function Login() {
       const loginCommonAccount = Object.assign(loginAccount, loginTimeObj)
       SaveDataToLocalStorage('login', loginCommonAccount)
       history.push('/')
-      Timer()
     } else {
       alert('이메일 또는 비밀번호를 다시 확인해주세요.')
     }
