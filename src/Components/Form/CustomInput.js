@@ -28,6 +28,10 @@ const Wrapper = styled.input`
     height: 4.4rem;
     margin-bottom: 0.8rem;
   }
+  @media screen and ${({ theme }) => theme.device.tablet} {
+    height: 4.4rem;
+    margin-bottom: 0.8rem;
+  }
 `
 
 export default CustomInput
