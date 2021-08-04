@@ -7,6 +7,7 @@ const PrivateRoute = ({ component: Component, path, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
+        GetAccessPathInfo() &&
         GetAccessPathInfo().find(
           (accessiblePath) => accessiblePath === path
         ) ? (

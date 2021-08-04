@@ -100,6 +100,11 @@ export default function Main() {
       >
         시간 체크{' '}
       </div>
+      {GetDataFromLocalStorage('login') ? (
+        <div>로그인 상태</div>
+      ) : (
+        <div>로그아웃 상태</div>
+      )}
     </>
   )
 }
