@@ -19,7 +19,11 @@ export default function Toast({ message, isShow }) {
     <>
       {show &&
         createPortal(
-          <Wrapper isShow={isShow ? 1 : 0}>
+          <Wrapper
+            role="alertdialog"
+            aria-live="assertive"
+            isShow={isShow ? 1 : 0}
+          >
             <Message>{message}</Message>
           </Wrapper>,
           document.body
