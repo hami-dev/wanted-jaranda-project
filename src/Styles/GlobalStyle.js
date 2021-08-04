@@ -9,6 +9,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
   }
+
+  html {
+    font-size: 62.5%;
+  }
   
   html {
     font-size: 62.5%;
@@ -25,7 +29,7 @@ const GlobalStyle = createGlobalStyle`
   a, a:hover, a:focus {
     color: inherit;
     text-decoration: none;
-    cursor: pointer;
+    /* cursor: pointer; */
   }
 
   input,textarea {
@@ -38,7 +42,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: transparent;
     border: none;
     outline: none;
-    cursor: pointer;
+    /* cursor: pointer; */
   }
 
   ol, ul, li {
