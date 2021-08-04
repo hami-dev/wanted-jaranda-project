@@ -35,16 +35,13 @@ export default function Login(props) {
     if (!id.value) {
       toast('이메일을 입력해주세요.')
       id.focus()
-      return
     } else if (!pw.value) {
       toast('비밀번호를 입력해주세요.')
       pw.focus()
-      return
     } else if (!validation.isEmail(id.value)) {
       toast('유효하지 않은 이메일입니다.')
       id.value = ''
       id.focus()
-      return
     } else {
       const state = auth.login(id.value, pw.value)
       switch (state.name) {
@@ -66,10 +63,6 @@ export default function Login(props) {
           throw new Error('is not valid state')
       }
     }
-  }, [])
-
-  const handleSignup = useCallback(() => {
-    toast('Test')
   }, [])
 
   return (
@@ -95,7 +88,7 @@ export default function Login(props) {
               아이디 기억하기
             </StyledCustomCheckBox>
             <LoginButton clickHandler={handleLogin}>로그인</LoginButton>
-            <SingupButton clickHandler={handleSignup}>회원가입</SingupButton>
+            <SignupButton to="/signup">회원가입</SignupButton>
             <StyledLink to="/">관리자 로그인</StyledLink>
           </LoginContent>
         </Container>
@@ -188,9 +181,23 @@ const LoginButton = styled(Button)`
     }
   }
 `
-const SingupButton = styled(Button)`
+const SignupButton = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 5.2rem;
   margin-bottom: 3.8rem;
+  border-radius: 0.6rem;
+  color: #fff;
   background-color: #0085fd;
+  cursor: pointer;
+  &:hover {
+    color: #fff;
+  }
+  @media screen and ${({ theme }) => theme.device.tablet} {
+    height: 4.4rem;
+  }
 `
 
 const StyledLink = styled(Link)`
