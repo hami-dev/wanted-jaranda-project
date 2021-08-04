@@ -43,20 +43,30 @@ export default function Header() {
         <StyledNav mobileShow={isOpenNav} onClick={handleCloseMobileMenu}>
           <NavList>
             <NavItem>
-              <StyledLink to="/">자란다선생님 보기</StyledLink>
+              <StyledLink to="/teacher">자란다선생님 메뉴</StyledLink>
             </NavItem>
             <NavItem>
-              <StyledLink to="/">선생님 지원하기</StyledLink>
+              <StyledLink to="/parent">자란다부모님 메뉴</StyledLink>
             </NavItem>
             <NavItem>
-              {auth.getAuth() ? (
-                <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
-              ) : (
+              <StyledLink to="/student">자란다어린이 메뉴</StyledLink>
+            </NavItem>
+            {auth.getAuth() ? (
+              <>
+                <NavItem>
+                  <StyledLink to="/">마이페이지</StyledLink>
+                </NavItem>
+                <NavItem>
+                  <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
+                </NavItem>
+              </>
+            ) : (
+              <NavItem>
                 <StyledLink to="/login" active={isActiveLink('/login')}>
                   로그인/회원가입
                 </StyledLink>
-              )}
-            </NavItem>
+              </NavItem>
+            )}
           </NavList>
         </StyledNav>
         <HamburgerBtn onClick={handleOpenMobileMenu}>

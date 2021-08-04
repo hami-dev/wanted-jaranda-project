@@ -18,8 +18,14 @@ class Auth {
     } else if (!isPasswordMatch) {
       return { state: 'fail', reason: '패스워드가 일치하지 않습니다.' }
     } else {
-      this.currentAccountStorage.save(account)
-      this.auth = account
+      const protectedAccountInfo = {
+        loginTime: new Date().getTime(),
+        name: account.name,
+        access: account.access,
+        auth: account.auth,
+      }
+      this.currentAccountStorage.save(protectedAccountInfo)
+      this.auth = protectedAccountInfo
       return { state: 'success' }
     }
   }
