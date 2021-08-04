@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
 
@@ -10,17 +10,25 @@ import Toast from 'Components/Toast/Toast'
 import validation from 'Utils/Validation/Validation'
 import useToast from 'Utils/Hooks/useToast'
 import auth from 'Utils/Auth/Auth'
+import { rememberMeStorage } from 'Utils/Storage'
 import { loginState } from 'Constant'
 import bgImgUrl from 'Assets/Images/bg-sign_in.png'
 import mBgImgUrl from 'Assets/Images/bg-sign_in-m.png'
 
-export default function Login(props) {
+export default function Login() {
   const history = useHistory()
   const [isRememberId, setIsRememberId] = useState(false)
   const idInputRef = useRef(null)
   const pwInputRef = useRef(null)
-  const rememberRef = useRef(null)
   const { isShow, message, toast } = useToast()
+
+  useEffect(() => {
+    const rememberId = rememberMeStorage.load()
+    if (rememberId) {
+      setIsRememberId(true)
+      idInputRef.current.value = rememberId
+    }
+  }, [])
 
   const handleRememberMe = useCallback(
     ({ target: { checked } }) => {
@@ -46,6 +54,9 @@ export default function Login(props) {
       const state = auth.login(id.value, pw.value)
       switch (state.name) {
         case loginState.SUCCESS.name:
+          isRememberId
+            ? rememberMeStorage.save(id.value)
+            : rememberMeStorage.remove()
           history.push('/')
           return
 
@@ -63,7 +74,7 @@ export default function Login(props) {
           throw new Error('is not valid state')
       }
     }
-  }, [])
+  }, [isRememberId])
 
   return (
     <Layout>
@@ -80,8 +91,7 @@ export default function Login(props) {
               placeholder="비밀번호"
             />
             <StyledCustomCheckBox
-              ref={rememberRef}
-              cehcekd={isRememberId}
+              checked={isRememberId}
               id="rememberId"
               checkHandler={handleRememberMe}
             >
