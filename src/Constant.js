@@ -67,6 +67,7 @@ export const toastMsg = Object.freeze({
   INVALID_PREVIOUS_PASSWORD: '이전 비밀번호를 확인해주세요.',
   INVALID_NEW_PASSWORD: '비밀번호를 규칙에 맞게 입력해주세요.',
   MY_INFO_EDIT_ERROR: '내 정보 수정 기능이 원활하지 않습니다.',
+  NO_ACCESS_RIGHT: '접근 권한이 없습니다.',
 })
 
 export const fetchDataType = Object.freeze({
